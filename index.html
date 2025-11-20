@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Solar Company - Contact Us</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Inter', Arial, sans-serif;
+      background: #f9fafb;
+      color: #111827;
+      overflow-y: auto;
+    }
+    header {
+      background: white;
+      padding: 20px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #e5e7eb;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+    header .logo {
+      font-size: 24px;
+      font-weight: 700;
+      color: #0284c7;
+      cursor: pointer;
+    }
+    header nav a {
+      margin-left: 20px;
+      text-decoration: none;
+      font-size: 16px;
+      color: #374151;
+    }
+    .hero {
+      background: linear-gradient(to bottom right, #0284c7, #0ea5e9);
+      min-height: 300px;
+      display: flex;
+      flex-direction: column;
+      text-align: center;
+      justify-content: center;
+      align-items: center;
+      color: white;
+      padding: 20px;
+    }
+    .hero h1 {
+      font-size: 42px;
+      margin: 0;
+      font-weight: 800;
+    }
+    .hero p {
+      margin-top: 10px;
+      font-size: 18px;
+      max-width: 550px;
+    }
+    .container {
+      padding: 40px;
+      max-width: 900px;
+      margin: auto;
+    }
+    h2 {
+      font-size: 28px;
+      margin-bottom: 10px;
+      font-weight: 700;
+      color: #0f172a;
+    }
+    .contact-box {
+      background: white;
+      padding: 30px;
+      border-radius: 16px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+      border: 1px solid #e5e7eb;
+    }
+    .row {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+    input, textarea {
+      width: 100%;
+      padding: 14px;
+      margin: 10px 0;
+      border: 1px solid #d1d5db;
+      border-radius: 10px;
+      font-size: 16px;
+      background: #f9fafb;
+    }
+    input:focus, textarea:focus {
+      border-color: #0284c7;
+      outline: none;
+      background: white;
+      box-shadow: 0 0 0 2px rgba(2,132,199,0.2);
+    }
+    button {
+      background: #fdd835;
+      color: #111827;
+      border: none;
+      padding: 14px 22px;
+      border-radius: 10px;
+      font-size: 18px;
+      cursor: pointer;
+      margin-top: 10px;
+      font-weight: 600;
+      transition: 0.2s ease;
+      width: 100%;
+    }
+    button:hover {
+      background: #facc15;
+    }
+    footer {
+      text-align: center;
+      padding: 30px;
+      color: #6b7280;
+      margin-top: 60px;
+      font-size: 14px;
+    }
+    a:hover {
+      color: #0284c7;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo" onclick="window.location.href='/'">SUNRUN Energy</div>
+    <nav>
+      <a href="#services">Services</a>
+      <a href="#contact">Contact</a>
+      <a href="#about">About</a>
+    </nav>
+  </header>
+
+  <div class="hero">
+      <h1>Power Your Home With Clean Solar Energy</h1>
+      <p>Lower your bills. Increase your energy independence. Build a brighter future with sustainable solar solutions.</p>
+  </div>
+
+  <div class="container">
+    <h2>Contact Us</h2>
+    <p>Have questions about going solar? Fill out the form below and our team will reach out shortly.</p>
+    <div class="contact-box" id="contact">
+
+      <form id="contactForm">
+        <div class="row">
+          <input type="text" placeholder="Full Name" name="name" required />
+          <input type="email" placeholder="Email Address" name="email" required />
+        </div>
+
+        <div class="row">
+          <input type="text" placeholder="Phone Number" name="phone" />
+          <input type="text" placeholder="City / State" name="location" />
+        </div>
+
+        <!-- NEW HOME ADDRESS FIELD -->
+        <input type="text" name="address" placeholder="Home Address" />
+
+        <textarea rows="5" placeholder="Your Message" name="message"></textarea>
+
+        <button type="submit">Send Message</button>
+      </form>
+
+    </div>
+  </div>
+
+  <footer>© 2025 SUNRUN Energy — All Rights Reserved</footer>
+
+  <script>
+    const form = document.getElementById('contactForm');
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const data = new FormData(form);
+      const payload = Object.fromEntries(data.entries());
+
+      try {
+        const response = await fetch('/api/send-sms', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        const result = await response.json();
+        alert(result.status);
+      } catch (err) {
+        alert('There was an error sending your message.');
+        console.error(err);
+      }
+    });
+  </script>
+</body>
+</html>
